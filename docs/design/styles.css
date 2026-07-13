@@ -1,0 +1,544 @@
+/* ============================================================
+   Feiz e Breizh — Inventory · Design Tokens & Base Styles
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Parchemin & encre */
+  --parchment:        #F4EDE0;
+  --parchment-light:  #FBF6EC;
+  --parchment-warm:   #EBE0CC;
+  --parchment-deep:   #E0D3B9;
+  --vellum-line:      #C9B998;
+
+  --ink:              #1A1612;
+  --ink-soft:         #3D342B;
+  --ink-mid:          #6B5E4F;
+  --ink-faint:        #9C8B73;
+
+  /* Liturgique */
+  --bordeaux:         #6B1F2A;
+  --bordeaux-deep:    #4F1620;
+  --bordeaux-soft:    #8B2B38;
+  --bordeaux-wash:    #F2E1DF;
+
+  --gold:             #A47B3A;
+  --gold-light:       #C9A05E;
+  --gold-wash:        #F2E8D2;
+
+  --sage:             #5C6B4A;   /* utilisé très rarement, pour "ok" */
+  --sage-wash:        #E2E5D6;
+
+  /* États */
+  --ok:               #4F6B3F;
+  --warn:             #A06A1A;
+  --danger:           #8B2B38;
+
+  /* Surfaces */
+  --surface:          var(--parchment);
+  --surface-raised:   var(--parchment-light);
+  --surface-deep:     var(--parchment-warm);
+  --hairline:         rgba(26, 22, 18, 0.10);
+  --hairline-strong:  rgba(26, 22, 18, 0.22);
+  --shadow-sm:        0 1px 0 rgba(26,22,18,0.04), 0 2px 6px rgba(26,22,18,0.04);
+  --shadow-md:        0 1px 0 rgba(26,22,18,0.04), 0 8px 24px -8px rgba(26,22,18,0.12);
+  --shadow-lg:        0 1px 0 rgba(26,22,18,0.04), 0 24px 48px -16px rgba(26,22,18,0.22);
+
+  /* Type */
+  --font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --font-ui:      'Geist', 'Söhne', system-ui, -apple-system, sans-serif;
+  --font-mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ============================================================
+   Reset & base
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: var(--parchment);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv11";
+  font-variant-numeric: tabular-nums;
+}
+
+button { font: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; padding: 0; }
+input, select, textarea { font: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ============================================================
+   Type system
+   ============================================================ */
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+.t-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--bordeaux);
+  font-size: 13px;
+}
+
+.t-smallcaps {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-mid);
+  text-transform: uppercase;
+}
+
+.t-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+}
+
+/* ============================================================
+   Hermine motif (background)
+   ============================================================ */
+
+.hermine-bg {
+  background-image: url('assets/hermine.png');
+  background-repeat: repeat;
+  background-size: 56px;
+  opacity: 0.04;
+}
+
+.hermine-bg--dense {
+  background-size: 40px;
+  opacity: 0.06;
+}
+
+.hermine-bg--light {
+  background-size: 80px;
+  opacity: 0.025;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  transition: all 120ms ease;
+  white-space: nowrap;
+  height: 36px;
+}
+
+.btn--primary {
+  background: var(--ink);
+  color: var(--parchment-light);
+}
+.btn--primary:hover { background: var(--bordeaux); }
+
+.btn--bordeaux {
+  background: var(--bordeaux);
+  color: var(--parchment-light);
+}
+.btn--bordeaux:hover { background: var(--bordeaux-deep); }
+
+.btn--ghost {
+  color: var(--ink);
+  border: 1px solid var(--hairline-strong);
+  background: transparent;
+}
+.btn--ghost:hover { background: var(--parchment-light); border-color: var(--ink); }
+
+.btn--quiet {
+  color: var(--ink-soft);
+  background: transparent;
+}
+.btn--quiet:hover { background: var(--parchment-warm); }
+
+.btn--icon {
+  width: 36px;
+  padding: 0;
+  justify-content: center;
+}
+
+.btn--sm { height: 28px; padding: 0 10px; font-size: 12px; }
+.btn--lg { height: 44px; padding: 0 18px; font-size: 14px; }
+
+/* ============================================================
+   Inputs
+   ============================================================ */
+
+.input {
+  display: block;
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 4px;
+  background: var(--parchment-light);
+  font-size: 13px;
+  color: var(--ink);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+.input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(26,22,18,0.08); }
+.input::placeholder { color: var(--ink-faint); }
+
+.input--lg { height: 44px; font-size: 14px; }
+
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  margin-bottom: 6px;
+}
+
+/* ============================================================
+   Cards & surfaces
+   ============================================================ */
+
+.card {
+  background: var(--parchment-light);
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  position: relative;
+}
+
+.card--raised {
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.14em;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* Decorative corner ornaments */
+.ornament-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  color: var(--ink-mid);
+  opacity: 0.5;
+}
+.ornament-corner--tl { top: -1px; left: -1px; border-top: 1.5px solid currentColor; border-left: 1.5px solid currentColor; border-top-left-radius: 6px; }
+.ornament-corner--tr { top: -1px; right: -1px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; border-top-right-radius: 6px; }
+.ornament-corner--bl { bottom: -1px; left: -1px; border-bottom: 1.5px solid currentColor; border-left: 1.5px solid currentColor; border-bottom-left-radius: 6px; }
+.ornament-corner--br { bottom: -1px; right: -1px; border-bottom: 1.5px solid currentColor; border-right: 1.5px solid currentColor; border-bottom-right-radius: 6px; }
+
+/* ============================================================
+   Badges, chips, status
+   ============================================================ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: var(--parchment-warm);
+  color: var(--ink-soft);
+  border: 1px solid var(--hairline);
+}
+
+.chip--bordeaux { background: var(--bordeaux-wash); color: var(--bordeaux-deep); border-color: rgba(107,31,42,0.15); }
+.chip--gold     { background: var(--gold-wash); color: #6B4E14; border-color: rgba(164,123,58,0.20); }
+.chip--ok       { background: var(--sage-wash); color: var(--ok); border-color: rgba(79,107,63,0.18); }
+.chip--ink      { background: var(--ink); color: var(--parchment-light); border-color: transparent; }
+
+.dot {
+  width: 6px; height: 6px; border-radius: 50%; display: inline-block;
+}
+.dot--ok { background: var(--ok); }
+.dot--warn { background: var(--warn); }
+.dot--danger { background: var(--danger); }
+
+/* ============================================================
+   Navigation - sidebar
+   ============================================================ */
+
+.sidebar {
+  width: 248px;
+  height: 100%;
+  background: var(--ink);
+  color: var(--parchment);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar__hermine-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/hermine.png');
+  background-repeat: repeat;
+  background-size: 64px;
+  opacity: 0.05;
+  filter: invert(1);
+  pointer-events: none;
+}
+
+.sidebar__brand {
+  padding: 24px 20px 28px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(244, 237, 224, 0.08);
+}
+
+.sidebar__nav {
+  padding: 16px 12px;
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-section {
+  padding: 14px 10px 6px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(244, 237, 224, 0.45);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: rgba(244, 237, 224, 0.78);
+  font-weight: 400;
+  cursor: pointer;
+  position: relative;
+}
+.nav-item:hover { background: rgba(244, 237, 224, 0.06); color: var(--parchment-light); }
+.nav-item.active {
+  background: rgba(244, 237, 224, 0.10);
+  color: var(--parchment-light);
+  font-weight: 500;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: -12px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: var(--gold-light);
+}
+.nav-item__count {
+  margin-left: auto;
+  font-size: 11px;
+  color: rgba(244, 237, 224, 0.45);
+  font-variant-numeric: tabular-nums;
+}
+
+.sidebar__foot {
+  padding: 16px;
+  border-top: 1px solid rgba(244, 237, 224, 0.08);
+  position: relative;
+}
+
+/* ============================================================
+   Top bar
+   ============================================================ */
+
+.topbar {
+  height: 64px;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--parchment-light);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  position: relative;
+}
+
+.searchbar {
+  flex: 1;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 0 14px;
+  background: var(--parchment);
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  color: var(--ink-mid);
+  font-size: 13px;
+}
+.searchbar:hover { border-color: var(--hairline-strong); }
+.searchbar kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 6px;
+  background: var(--parchment-light);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  color: var(--ink-soft);
+}
+
+/* ============================================================
+   Table
+   ============================================================ */
+
+.dtable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.dtable thead th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  padding: 12px 16px;
+  background: var(--parchment-warm);
+  border-bottom: 1px solid var(--hairline-strong);
+  white-space: nowrap;
+}
+.dtable tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: middle;
+}
+.dtable tbody tr:hover { background: var(--parchment); }
+.dtable tbody tr:last-child td { border-bottom: 0; }
+.dtable .cell-id { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mid); }
+.dtable .cell-strong { font-weight: 500; color: var(--ink); }
+
+/* ============================================================
+   Stat tiles
+   ============================================================ */
+
+.stat {
+  padding: 18px 20px;
+  background: var(--parchment-light);
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.stat__label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+}
+.stat__value {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 1;
+  margin-top: 12px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.stat__sub {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink-mid);
+}
+
+/* ============================================================
+   Tabs
+   ============================================================ */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--hairline);
+}
+.tab {
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--ink-mid);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+.tab.active { color: var(--ink); border-bottom-color: var(--bordeaux); font-weight: 500; }
+.tab:hover:not(.active) { color: var(--ink-soft); }
+
+/* ============================================================
+   Utility
+   ============================================================ */
+.divider { height: 1px; background: var(--hairline); }
+.divider--strong { background: var(--hairline-strong); }
+
+.rule-ornament {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-faint);
+}
+.rule-ornament::before,
+.rule-ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+.rule-ornament__sym {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--bordeaux);
+}
+
+.muted { color: var(--ink-mid); }
+.muted-soft { color: var(--ink-faint); }
+
+/* visually accessible focus */
+:focus-visible { outline: 2px solid var(--bordeaux); outline-offset: 2px; border-radius: 3px; }

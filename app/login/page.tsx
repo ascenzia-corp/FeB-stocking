@@ -1,35 +1,9 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
-
-/* ------------------------------------------------------------------
-   Marques de placeholder.
-   TODO(assets) : remplacer par les PNG de marque une fois re-déposés
-   dans public/brand/ :
-     - panneau sombre  → /brand/feb-banner-noir.png (invert)
-     - bloc form       → /brand/feb-banner.png
-   Voir le handoff design (§ Logo & marques).
-   ------------------------------------------------------------------ */
-function CelticCross({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <line x1="16" y1="3" x2="16" y2="29" />
-      <line x1="6" y1="13" x2="26" y2="13" />
-      <circle cx="16" cy="13" r="5" />
-    </svg>
-  );
-}
 
 function Wordmark({ className = "" }: { className?: string }) {
   return (
@@ -117,10 +91,19 @@ function LoginForm() {
           }}
         />
 
-        {/* Marque centrale — PLACEHOLDER (oriflamme à venir) */}
+        {/* Oriflamme (fond sombre → banner-noir inversée) */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-          <CelticCross className="w-40 h-40 text-parchment-light/90" />
-          <Wordmark className="mt-8 text-lg tracking-[0.32em] text-parchment-light/85" />
+          <div className="relative h-[clamp(360px,58vh,600px)] w-[280px]">
+            <Image
+              src="/brand/feb-banner-noir.png"
+              alt="Oriflamme Feiz e Breizh"
+              fill
+              priority
+              sizes="280px"
+              className="object-contain [filter:invert(1)_brightness(1.08)]"
+            />
+          </div>
+          <Wordmark className="mt-6 text-lg tracking-[0.32em] text-parchment-light/85" />
         </div>
 
         {/* Tagline haut */}
@@ -152,9 +135,15 @@ function LoginForm() {
         <div className="relative w-full max-w-[380px]">
           {/* Mini bloc marque */}
           <div className="mb-10 flex items-center gap-3.5">
-            <span className="flex h-[52px] w-[52px] items-center justify-center rounded-md border border-ink/15 bg-parchment-light text-bordeaux">
-              <CelticCross className="w-7 h-7" />
-            </span>
+            <div className="relative h-[52px] w-[38px]">
+              <Image
+                src="/brand/feb-banner.png"
+                alt="Feiz e Breizh"
+                fill
+                sizes="38px"
+                className="object-contain"
+              />
+            </div>
             <div>
               <div className="font-display font-semibold text-[19px] leading-none">
                 Inventaire
