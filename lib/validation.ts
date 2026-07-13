@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const equipementCreateSchema = z.object({
   nom: z.string().min(1, "Nom requis").max(200),
+  quantite: z.coerce.number().int().min(1, "Quantité minimum 1").default(1),
   categorie: z.string().min(1, "Catégorie requise"),
   pole: z.string().min(1, "Pôle requis"),
   responsable: z.string().max(200).default(""),

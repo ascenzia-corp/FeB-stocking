@@ -11,6 +11,7 @@ const ETATS = ["Bon", "À vérifier", "Hors service"];
 
 interface FormState {
   nom: string;
+  quantite: string;
   categorie: string;
   pole: string;
   responsable: string;
@@ -22,6 +23,7 @@ interface FormState {
 
 const empty: FormState = {
   nom: "",
+  quantite: "1",
   categorie: "",
   pole: "",
   responsable: "",
@@ -79,6 +81,7 @@ export function EquipementModal({
     if (equipement) {
       setForm({
         nom: equipement.nom,
+        quantite: String(equipement.quantite ?? 1),
         categorie: equipement.categorie,
         pole: equipement.pole,
         responsable: equipement.responsable,
@@ -125,10 +128,14 @@ export function EquipementModal({
         ? "/api/equipements"
         : `/api/equipements/${equipement!.id}`;
       const method = isCreate ? "POST" : "PUT";
+      const payload = {
+        ...form,
+        quantite: Math.max(1, parseInt(form.quantite, 10) || 1),
+      };
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
         const j = await res.json().catch(() => ({}));
@@ -223,6 +230,7 @@ export function EquipementModal({
     <Modal open={open} onClose={onClose} title={title} footer={footer}>
       {!editing && equipement ? (
         <div className="space-y-4">
+          <Detail label="Quantité" value={String(equipement.quantite ?? 1)} />
           <Detail label="Catégorie" value={catName(equipement.categorie)} />
           <Detail label="Pôle" value={poleName(equipement.pole)} />
           <Detail label="Responsable" value={equipement.responsable || "—"} />
@@ -256,6 +264,17 @@ export function EquipementModal({
               value={form.nom}
               onChange={(e) => setField("nom", e.target.value)}
               required
+            />
+          </div>
+          <div>
+            <label className="label">Quantité *</label>
+            <input
+              type="number"
+              min={1}
+              step={1}
+              className="input"
+              value={form.quantite}
+              onChange={(e) => setField("quantite", e.target.value)}
             />
           </div>
           <div>

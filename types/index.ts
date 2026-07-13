@@ -5,6 +5,7 @@ export type Etat = "Bon" | "À vérifier" | "Hors service";
 export interface Equipement {
   id: string;
   nom: string;
+  quantite: number;
   categorie: string;
   pole: string;
   responsable: string;

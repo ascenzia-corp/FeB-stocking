@@ -25,6 +25,7 @@ export const SHEET_HEADERS: Record<SheetName, string[]> = {
     "notes",
     "date_creation",
     "derniere_modif",
+    "quantite",
   ],
   Poles: ["id", "nom", "responsable", "actif"],
   Lieux: ["id", "nom", "adresse", "actif"],
@@ -152,9 +153,11 @@ async function findRowIndex(
 }
 
 function castEquipement(r: RowMap): Equipement {
+  const q = parseInt(r.quantite, 10);
   return {
     id: r.id,
     nom: r.nom,
+    quantite: Number.isFinite(q) && q > 0 ? q : 1,
     categorie: r.categorie,
     pole: r.pole,
     responsable: r.responsable,

@@ -16,6 +16,7 @@ import type { SessionUser } from "@/lib/permissions";
 
 type SortKey =
   | "nom"
+  | "quantite"
   | "categorie"
   | "pole"
   | "responsable"
@@ -264,6 +265,9 @@ export function InventoryView() {
               <Th onClick={() => toggleSort("nom")} sorted={sortKey === "nom" ? sortDir : undefined}>
                 Nom
               </Th>
+              <Th onClick={() => toggleSort("quantite")} sorted={sortKey === "quantite" ? sortDir : undefined}>
+                Qté
+              </Th>
               <Th onClick={() => toggleSort("categorie")} sorted={sortKey === "categorie" ? sortDir : undefined}>
                 Catégorie
               </Th>
@@ -287,7 +291,7 @@ export function InventoryView() {
           <tbody>
             {sorted.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-ink/40">
+                <td colSpan={8} className="px-4 py-8 text-center text-ink/40">
                   Aucun équipement trouvé
                 </td>
               </tr>
@@ -299,6 +303,7 @@ export function InventoryView() {
                   className="border-b border-ink/5 hover:bg-gold/5 cursor-pointer"
                 >
                   <td className="px-3 py-2 font-medium text-ink">{e.nom}</td>
+                  <td className="px-3 py-2 text-ink/80 tabular-nums">{e.quantite ?? 1}</td>
                   <td className="px-3 py-2 text-ink/80">{e.categorie_nom}</td>
                   <td className="px-3 py-2 text-ink/80">{e.pole_nom}</td>
                   <td className="px-3 py-2 text-ink/80">{e.responsable || "—"}</td>
@@ -334,7 +339,14 @@ export function InventoryView() {
               className="card p-3 w-full text-left hover:bg-gold/5"
             >
               <div className="flex items-start justify-between gap-2">
-                <div className="font-medium text-ink">{e.nom}</div>
+                <div className="font-medium text-ink">
+                  {e.nom}
+                  {(e.quantite ?? 1) > 1 && (
+                    <span className="ml-2 badge bg-gold/10 text-gold-dark tabular-nums">
+                      ×{e.quantite}
+                    </span>
+                  )}
+                </div>
                 <EtatBadge etat={e.etat} />
               </div>
               <div className="text-xs text-ink/60 mt-1">
@@ -399,6 +411,9 @@ function sortValue(
   switch (key) {
     case "nom":
       return e.nom.toLowerCase();
+    case "quantite":
+      // zero-pad so lexicographic sort matches numeric order
+      return String(e.quantite ?? 1).padStart(9, "0");
     case "categorie":
       return e.categorie_nom.toLowerCase();
     case "pole":
