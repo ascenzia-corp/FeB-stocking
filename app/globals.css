@@ -2,53 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
-}
-
-html, body {
-  background-color: #FAFAF5;
-  color: #1A1A1A;
-}
-
-body {
-  font-family: var(--font-sans);
-  font-feature-settings: "cv11", "ss01";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1, h2, h3, .font-serif {
-  font-family: var(--font-serif);
+@layer base {
+  html,
+  body {
+    background-color: theme("colors.parchment.DEFAULT");
+    color: theme("colors.ink.DEFAULT");
+  }
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* Titres en display (Cormorant) par défaut */
+  h1,
+  h2,
+  h3,
+  .font-serif {
+    font-family: theme("fontFamily.display");
+  }
+  :focus-visible {
+    outline: 2px solid theme("colors.bordeaux.DEFAULT");
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
 }
 
 @layer components {
+  /* ------------------------------------------------------------------
+     Boutons — classes héritées, remappées sur la nouvelle charte.
+     Le primaire est encre → bordeaux au survol (cf. handoff).
+     ------------------------------------------------------------------ */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-medium transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cream disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 h-9 px-3.5 rounded font-medium transition-all duration-150 ease-out text-[13px] whitespace-nowrap focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-primary {
-    @apply btn bg-gold text-white hover:bg-gold-dark focus:ring-gold;
+    @apply btn bg-ink text-parchment-light hover:bg-bordeaux;
   }
   .btn-secondary {
-    @apply btn bg-white border border-ink/20 text-ink hover:bg-ink/5 focus:ring-ink/30;
+    @apply btn bg-parchment-light border border-ink/20 text-ink hover:border-ink hover:bg-parchment-light;
   }
   .btn-danger {
-    @apply btn bg-burgundy text-white hover:bg-burgundy-dark focus:ring-burgundy;
+    @apply btn bg-bordeaux text-parchment-light hover:bg-bordeaux-deep;
   }
   .btn-ghost {
-    @apply btn text-ink hover:bg-ink/5;
+    @apply btn text-ink-soft hover:bg-parchment-warm;
   }
+  .btn-lg {
+    @apply h-11 px-[18px] text-sm;
+  }
+
+  /* Inputs ------------------------------------------------------------ */
   .input {
-    @apply w-full px-3 py-2 rounded-md border border-ink/20 bg-white text-ink text-sm focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold placeholder:text-ink/40;
+    @apply w-full h-9 px-3 rounded border border-ink/20 bg-parchment-light text-ink text-[13px] transition-[border-color,box-shadow] duration-150 focus:outline-none focus:border-ink focus:shadow-[0_0_0_3px_rgba(26,22,18,0.08)] placeholder:text-ink-faint;
+  }
+  .input-lg {
+    @apply h-11 text-sm;
   }
   .label {
-    @apply block text-xs font-medium uppercase tracking-wider text-ink/60 mb-1;
+    @apply block text-[11px] font-medium uppercase tracking-label text-ink-mid mb-1.5;
   }
+
+  /* Badges / chips ---------------------------------------------------- */
   .badge {
-    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+    @apply inline-flex items-center px-2 py-0.5 rounded-sm text-[11px] font-medium;
   }
+  .chip {
+    @apply inline-flex items-center gap-1.5 h-[22px] px-2 rounded-sm text-[11px] font-medium bg-parchment-warm text-ink-soft border border-ink/10;
+  }
+
+  /* Surfaces ---------------------------------------------------------- */
   .card {
-    @apply bg-white rounded-lg border border-ink/10 shadow-sm;
+    @apply bg-parchment-light rounded-md border border-ink/10 relative;
+  }
+  .card-raised {
+    @apply shadow-md;
+  }
+}
+
+@layer utilities {
+  /* Filigrane hermine — surface claire.
+     (Le motif s'affiche dès que /brand/hermine.png est présent.) */
+  .hermine-layer {
+    background-image: theme("backgroundImage.hermine");
+    background-repeat: repeat;
+    background-size: 56px;
+    opacity: 0.04;
+    pointer-events: none;
+  }
+  /* Filigrane hermine — surface sombre (motif clair inversé). */
+  .hermine-layer-dark {
+    background-image: theme("backgroundImage.hermine");
+    background-repeat: repeat;
+    background-size: 64px;
+    opacity: 0.05;
+    filter: invert(1);
+    pointer-events: none;
+  }
+  /* Titre de section en petites capitales (Cormorant). */
+  .t-smallcaps {
+    font-family: theme("fontFamily.display");
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+  }
+  .t-eyebrow {
+    font-family: theme("fontFamily.display");
+    font-style: italic;
+    letter-spacing: 0.02em;
+    color: theme("colors.bordeaux.DEFAULT");
   }
 }
